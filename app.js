@@ -8,12 +8,21 @@ var y = canvas.height - 30;
 /* Ball change position after every frame */
 var dx = 2;
 var dy = -2;
+/* Ball radius for collision detection */
+var ballRadius = 10;
 
 /* A function defining how to draw the ball */
 function draw() {
   // Clear canvas before each frame
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall();
+  // collision detection
+  if(y + dy < ballRadius || y + dy > canvas.height - ballRadius){
+    dy = -dy;
+  }
+  if (x + dx > canvas.width - ballRadius || x + dx < ballRadius){
+    dx = -dx;
+  }
   x += dx;
   y += dy;
 };
@@ -22,7 +31,7 @@ function draw() {
 function drawBall() {
   // Draw a circle at x, y
   ctx.beginPath();
-  ctx.arc(x, y, 10, 0, Math.PI*2);
+  ctx.arc(x, y, ballRadius, 0, Math.PI*2);
   ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
