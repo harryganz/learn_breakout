@@ -25,8 +25,16 @@ function draw() {
   drawBall();
   drawPaddle();
   // collision detection
-  if(y + dy < ballRadius || y + dy > canvas.height - ballRadius){
+  if(y + dy < ballRadius){
     dy = -dy;
+  } else if(y + dy > canvas.height - ballRadius) {
+    if(x > paddleX && x < paddleX + paddleWidth) {
+      dy = -dy;
+    }
+    else {
+      alert("GAME OVER");
+      document.location.reload();
+    }
   }
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius){
     dx = -dx;
