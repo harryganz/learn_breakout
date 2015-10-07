@@ -38,6 +38,9 @@ for (c=0; c<brickColumnCount; c++) {
 // Score
 var score = 0;
 
+//lives
+var lives = 3;
+
 /* A function defining how to draw the ball */
 function draw() {
   // Clear canvas before each frame
@@ -46,6 +49,7 @@ function draw() {
   drawBall();
   drawPaddle();
   drawScore();
+  drawLives();
   collisionDetection();
   // collision detection
   if(y + dy < ballRadius){
@@ -57,8 +61,18 @@ function draw() {
       }
     }
     else {
-      alert("GAME OVER");
-      document.location.reload();
+      lives--;
+      if(!lives){
+        alert("GAME OVER");
+        document.location.reload();
+      }
+      else {
+        x = canvas.width/2;
+        y = canvas.height-30;
+        dx = 2;
+        dy = -2;
+        paddleX = (canvas.width-paddleWidth)/2;
+      }
     }
   }
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius){
@@ -72,6 +86,8 @@ function draw() {
   } else if(leftPressed && paddleX > 0) {
     paddleX -= 7;
   }
+  // Have browser set framerate
+  requestAnimationFrame(draw);
 };
 
 /* Draws a ball on the canvas */
@@ -117,6 +133,13 @@ function drawScore() {
   ctx.font = "16px Arial";
   ctx.fillStyle = "#0095DD";
   ctx.fillText("Score: " + score, 8 ,20);
+}
+
+/* Draw lives left on canvas */
+function drawLives() {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Lives: " + lives, canvas.width-65, 20);
 }
 
 /* Set listeners for key events*/
@@ -168,5 +191,5 @@ function collisionDetection(){
   }
 }
 
-/* Set a 10ms draw interval */
-setInterval(draw, 10);
+// Draw data
+draw();
