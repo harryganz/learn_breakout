@@ -18,10 +18,28 @@ var paddleX = (canvas.width - paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
 
+/* Set up bricks */
+var brickRowCount = 3;
+var brickColumnCount = 5;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+
+var bricks = [];
+for (c=0; c<brickColumnCount; c++) {
+  bricks[c] = [];
+  for(r=0; r<brickRowCount; r++) {
+    bricks[c][r] = {x:0, y:0}
+  }
+}
+
 /* A function defining how to draw the ball */
 function draw() {
   // Clear canvas before each frame
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBricks();
   drawBall();
   drawPaddle();
   // collision detection
@@ -59,6 +77,23 @@ function drawBall() {
   ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
+}
+
+/* Draws bricks on canvas */
+function drawBricks() {
+  for(c=0; c<brickColumnCount; c++) {
+    for(r=0; r<brickRowCount; r++) {
+      var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+      var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+      bricks[c][r].x = brickX;
+      bricks[c][r].y = brickY;
+      ctx.beginPath();
+      ctx.rect(brickX, brickY, brickWidth, brickHeight);
+      ctx.fillStyle = "#0095DD";
+      ctx.fill();
+      ctx.closePath();
+    }
+  }
 }
 
 /* Draws a paddle on the canvas*/
