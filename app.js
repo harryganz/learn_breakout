@@ -35,6 +35,9 @@ for (c=0; c<brickColumnCount; c++) {
   }
 }
 
+// Score
+var score = 0;
+
 /* A function defining how to draw the ball */
 function draw() {
   // Clear canvas before each frame
@@ -42,6 +45,7 @@ function draw() {
   drawBricks();
   drawBall();
   drawPaddle();
+  drawScore();
   collisionDetection();
   // collision detection
   if(y + dy < ballRadius){
@@ -108,6 +112,13 @@ function drawPaddle() {
   ctx.closePath();
 }
 
+/* Draw score on the canvas */
+function drawScore() {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Score: " + score, 8 ,20);
+}
+
 /* Set listeners for key events*/
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -137,6 +148,11 @@ function collisionDetection(){
         if(x > b.x && x< b.x+brickWidth && y > b.y && y < b.y+brickHeight){
           dy = -dy;
           b.status = 0;
+          score++;
+          if(score == brickRowCount*brickColumnCount) {
+            alert("YOU WIN, CONGRATULATIONS");
+            document.location.reload();
+          }
         }
       }
     }
